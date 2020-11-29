@@ -18,27 +18,20 @@ function setup() {
 	LargeButton.mousePressed(largeCanvas);
 
 	createCanvas(1000, 1000);
-	let tmp = [];
-	for(var row = 0; row < width; row += 20){
-		for(var col = 0; col < height; col += 20){
-			tmp.push(new conway(col, row));
-		}
-		places.push(tmp);
-		tmp = [];
-	}
+	setSize(20);
 	//frameRate(fps);
 }
 
 var tmpCan = 1;
 function draw() {
 	if(canSize == 0 && canSize != tmpCan){
-		setFlock(10);
+		setSize(10);
 	}
 	else if(canSize == 1 && canSize != tmpCan){
-		setFlock(20);
+		setSize(20);
 	}
 	else if(canSize == 2 && canSize != tmpCan){
-		setFlock(40);
+		setSize(40);
 	}
 
 	tmpCan = canSize;
@@ -144,7 +137,7 @@ function largeCanvas(){
 	canSize = 2;
 }
 
-function setFlock(x){
+function setSize(x){
 	places = [];
 	let tmp = [];
 		for(var row = 0; row < width; row += x){
