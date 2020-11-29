@@ -2,7 +2,7 @@ class conway{
 	constructor(x, y){
 		this.xPos = x;
 		this.yPos = y;
-		if(random() >= 0.9)
+		if(random() >= 0.85)
 			this.on = true;
 		else
 			this.on = false;

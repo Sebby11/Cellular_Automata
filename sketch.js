@@ -1,5 +1,6 @@
 let places = [];
 var fps = 5;
+var canSize = 1; //0 - small / 1 - medium / 3 - large
 
 function setup() {
 	// put setup code here
@@ -8,6 +9,13 @@ function setup() {
 
 	spdDownButton.mousePressed(speedDown);
 	spdUpButton.mousePressed(speedUp);
+
+	smallButton = createButton("Small");
+	smallButton.mousePressed(smallCanvas);
+	mediumButton = createButton("Medium");
+	mediumButton.mousePressed(medCanvas);
+	LargeButton = createButton("Large");
+	LargeButton.mousePressed(largeCanvas);
 
 	createCanvas(1000, 1000);
 	let tmp = [];
@@ -21,8 +29,20 @@ function setup() {
 	//frameRate(fps);
 }
 
-
+var tmpCan = 1;
 function draw() {
+	if(canSize == 0 && canSize != tmpCan){
+		setFlock(10);
+	}
+	else if(canSize == 1 && canSize != tmpCan){
+		setFlock(20);
+	}
+	else if(canSize == 2 && canSize != tmpCan){
+		setFlock(40);
+	}
+
+	tmpCan = canSize;
+
 	background(0);
 	frameRate(fps);
 	//loop recognizing squares on grid
@@ -108,4 +128,30 @@ function speedDown(){
 	if(!((fps - 0.4) < 0))
 		fps -= 0.4;
 	console.log(fps);
+}
+
+function smallCanvas(){
+	canSize = 0;
+}
+
+
+function medCanvas(){
+	canSize = 1;
+}
+
+
+function largeCanvas(){
+	canSize = 2;
+}
+
+function setFlock(x){
+	places = [];
+	let tmp = [];
+		for(var row = 0; row < width; row += x){
+			for(var col = 0; col < height; col += x){
+				tmp.push(new conway(col, row));
+			}
+			places.push(tmp);
+			tmp = [];
+		}
 }
