@@ -1,3 +1,5 @@
-# Conways_Game_of_Life
+# Cellular automata
 
-*View Here: https://people.ucsc.edu/~seamedin/Conways/index.html*
+*View Conways Game of Life here: https://people.ucsc.edu/~seamedin/Conways/index.html*
+
+*View Cyclic Cellular Automata here: https://people.ucsc.edu/~seamedin/CyclicAutomata/index.html*
