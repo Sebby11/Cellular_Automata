@@ -98,35 +98,39 @@ function moduloCheck(row, col){
 		//return;
 		cnt++;
 	}
-	
-	if(cnt == 2)
-		tmpArr[row][col].state = (places[row][col].state + 1) % n;
+
 
 	//check top right
 	if(row != 0 && col != places.length - 1 && places[row - 1][col + 1].state == (places[row][col].state + 1) % n){
-		tmpArr[row][col].state = (places[row][col].state + 1) % n;
-		return;
+		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
+		//return;
+		cnt++;
 	}
 
 	//check top left
 	if(row != 0 && col != 0 && places[row - 1][col - 1].state == (places[row][col].state + 1) % n){
-		tmpArr[row][col].state = (places[row][col].state + 1) % n;
-		return;
+		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
+		//return;
+		cnt++;
 	}
 
 	//check bottom right
 	if(row != places.length - 1 && col != places.length - 1 && places[row + 1][col + 1].state == (places[row][col].state + 1) % n){
-		tmpArr[row][col].state = (places[row][col].state + 1) % n;
-		return;
+		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
+		//return;
+		cnt++;
 	}
 
 
 	//check bottom left
 	if(row != places.length - 1 && col != 0 && places[row + 1][col - 1].state == (places[row][col].state + 1) % n){
-		tmpArr[row][col].state = (places[row][col].state + 1) % n;
-		return;
+		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
+		//return;
+		cnt++;
 	}
-	*/
+	
+	if(cnt >= 3)
+		tmpArr[row][col].state = (places[row][col].state + 1) % n;
 }
 
 function speedUp(){
