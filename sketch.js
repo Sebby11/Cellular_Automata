@@ -73,6 +73,8 @@ function moduloCheck(row, col){
 	//Use this & comment out the rest to view land takeover
 	if(cnt == 2)
 		tmpArr[row][col].state = (places[row][col].state + 1) % n;
+
+
 }
 
 function speedUp(){
