@@ -1,6 +1,9 @@
 let places = [];
+let tmpArr = [];
 var fps = 5;
 var canSize = 1; //0 - small / 1 - medium / 3 - large
+var n = 3;
+var size = 150;
 
 function setup() {
 	// put setup code here
@@ -18,7 +21,7 @@ function setup() {
 	LargeButton.mousePressed(largeCanvas);
 
 	createCanvas(1000, 1000);
-	setSize(20);
+	setSize(size);
 	//frameRate(fps);
 }
 
@@ -39,77 +42,91 @@ function draw() {
 	background(0);
 	frameRate(fps);
 	//loop recognizing squares on grid
-	for(let arrOfBlocks of places){
-		for(let places of arrOfBlocks){
-			places.show();
-		}
-	}
-
-	var colorChange = 0;
 	for(var i = 0; i < places.length; i++){
 		for(var j= 0; j <places.length; j++){
-			var n = numNeibs(i, j);
-
-			//live cell w/ <2 dies
-			if(places[i][j].on && n < 2)
-				places[i][j].on = false;
-			//live cell w/ 2 or 3 live neighbors lives
-			else if(places[i][j].on && (n == 2 || n == 3))
-				places[i][j].on = true;
-			//live cell w/ > 3 live neighbors dies
-			else if(places[i][j].on && n > 3)
-				places[i][j].on = false;
-			//dead cell w/ = 3 neighbors lives
-			else if(!places[i][j].on && n == 3)
-				places[i][j].on = true;
+			//console.log("This place: ", places[i][j]);
+			places[i][j].show();
 		}
 	}
+	//alert();
+
+	//Clone array
+	tmpArr = [];
+	tmpArr = copyArr(places);
+	
+	//Find the new board
+	for(var i = 0; i < places.length; i++){
+		for(var j= 0; j < places.length; j++){
+			moduloCheck(i, j);
+		}
+	}
+
+
+	//set places equal to clone
+	places = [];
+	places = copyArr(tmpArr);
+	//alert();
 }
 
-function numNeibs(row, col){
+function moduloCheck(row, col){
 	var cnt = 0;
+
 	//check top & not top row
-	if(row != 0 && places[row - 1][col].on){
+	if(row != 0 && places[row - 1][col].state == (places[row][col].state + 1) % n){
+		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
+		//return;
 		cnt++;
 	}
 
 	//check bottom & not bottom row
-	if(row != places.length - 1 && places[row + 1][col].on){
+	if(row != places.length - 1 && places[row + 1][col].state == (places[row][col].state + 1) % n){
+		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
+		//return;
 		cnt++;
 	}
 
 	//check right & not rightmost column
-	if(col != places.length - 1 && places[row][col + 1].on){
+	if(col != places.length - 1 && places[row][col + 1].state == (places[row][col].state + 1) % n){
+		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
+		//return;
 		cnt++;
 	}
 
 	//check left & not leftmost column
-	if(col != 0 && places[row][col - 1].on){
+	if(col != 0 && places[row][col - 1].state == (places[row][col].state + 1) % n){
+		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
+		//return;
 		cnt++;
 	}
+	
+	if(cnt == 2)
+		tmpArr[row][col].state = (places[row][col].state + 1) % n;
 
 	//check top right
-	if(row != 0 && col != places.length - 1 && places[row - 1][col + 1].on){
-		cnt++;
+	if(row != 0 && col != places.length - 1 && places[row - 1][col + 1].state == (places[row][col].state + 1) % n){
+		tmpArr[row][col].state = (places[row][col].state + 1) % n;
+		return;
 	}
 
 	//check top left
-	if(row != 0 && col != 0 && places[row - 1][col - 1].on){
-		cnt++;
+	if(row != 0 && col != 0 && places[row - 1][col - 1].state == (places[row][col].state + 1) % n){
+		tmpArr[row][col].state = (places[row][col].state + 1) % n;
+		return;
 	}
 
 	//check bottom right
-	if(row != places.length - 1 && col != places.length - 1 && places[row + 1][col + 1].on){
-		cnt++;
+	if(row != places.length - 1 && col != places.length - 1 && places[row + 1][col + 1].state == (places[row][col].state + 1) % n){
+		tmpArr[row][col].state = (places[row][col].state + 1) % n;
+		return;
 	}
 
 
 	//check bottom left
-	if(row != places.length - 1 && col != 0 && places[row + 1][col - 1].on){
-		cnt++;
+	if(row != places.length - 1 && col != 0 && places[row + 1][col - 1].state == (places[row][col].state + 1) % n){
+		tmpArr[row][col].state = (places[row][col].state + 1) % n;
+		return;
 	}
-
-	return cnt
+	*/
 }
 
 function speedUp(){
@@ -125,6 +142,7 @@ function speedDown(){
 
 function smallCanvas(){
 	canSize = 0;
+	setSize(10);
 }
 
 
@@ -138,6 +156,7 @@ function largeCanvas(){
 }
 
 function setSize(x){
+	size = x;
 	places = [];
 	let tmp = [];
 		for(var row = 0; row < width; row += x){
@@ -147,4 +166,19 @@ function setSize(x){
 			places.push(tmp);
 			tmp = [];
 		}
+}
+
+function copyArr(arr){
+	//console.log("arr: ", arr);
+	let tmparr = [];
+	let tmp = [];
+		for(var row = 0; row < width; row += size){
+			for(var col = 0; col < height; col += size){
+				tmp.push(new conway(col, row));
+				tmp[col/size].state = arr[row/size][col/size].state;
+			}
+			tmparr.push(tmp);
+			tmp = [];
+		}
+	return tmparr;
 }
