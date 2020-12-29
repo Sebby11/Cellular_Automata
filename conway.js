@@ -7,6 +7,7 @@ class conway{
 		this.state = Math.floor(Math.random() * 3);
 	}
 
+	//Some states are placeholders for later use
 	show(){
 		if(this.state == 0)
 			fill(0, 0, 0);

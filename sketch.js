@@ -1,9 +1,8 @@
 let places = [];
 let tmpArr = [];
-var fps = 5;
-var canSize = 1; //0 - small / 1 - medium / 3 - large
+var fps = 13;
 var n = 3;
-var size = 150;
+var size = 10;
 
 function setup() {
 	// put setup code here
@@ -13,34 +12,17 @@ function setup() {
 	spdDownButton.mousePressed(speedDown);
 	spdUpButton.mousePressed(speedUp);
 
-	smallButton = createButton("Small");
-	smallButton.mousePressed(smallCanvas);
-	mediumButton = createButton("Medium");
-	mediumButton.mousePressed(medCanvas);
-	LargeButton = createButton("Large");
-	LargeButton.mousePressed(largeCanvas);
+	smallButton = createButton("Reset");
+	smallButton.mousePressed(resetCanvas);
 
 	createCanvas(1000, 1000);
 	setSize(size);
-	//frameRate(fps);
 }
 
-var tmpCan = 1;
 function draw() {
-	if(canSize == 0 && canSize != tmpCan){
-		setSize(10);
-	}
-	else if(canSize == 1 && canSize != tmpCan){
-		setSize(20);
-	}
-	else if(canSize == 2 && canSize != tmpCan){
-		setSize(40);
-	}
-
-	tmpCan = canSize;
-
 	background(0);
 	frameRate(fps);
+
 	//loop recognizing squares on grid
 	for(var i = 0; i < places.length; i++){
 		for(var j= 0; j <places.length; j++){
@@ -48,7 +30,6 @@ function draw() {
 			places[i][j].show();
 		}
 	}
-	//alert();
 
 	//Clone array
 	tmpArr = [];
@@ -61,11 +42,9 @@ function draw() {
 		}
 	}
 
-
-	//set places equal to clone
+	//set places equal to new grid
 	places = [];
 	places = copyArr(tmpArr);
-	//alert();
 }
 
 function moduloCheck(row, col){
@@ -73,59 +52,43 @@ function moduloCheck(row, col){
 
 	//check top & not top row
 	if(row != 0 && places[row - 1][col].state == (places[row][col].state + 1) % n){
-		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
-		//return;
 		cnt++;
 	}
 
 	//check bottom & not bottom row
 	if(row != places.length - 1 && places[row + 1][col].state == (places[row][col].state + 1) % n){
-		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
-		//return;
 		cnt++;
 	}
 
 	//check right & not rightmost column
 	if(col != places.length - 1 && places[row][col + 1].state == (places[row][col].state + 1) % n){
-		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
-		//return;
 		cnt++;
 	}
 
 	//check left & not leftmost column
 	if(col != 0 && places[row][col - 1].state == (places[row][col].state + 1) % n){
-		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
-		//return;
 		cnt++;
 	}
 
 
 	//check top right
 	if(row != 0 && col != places.length - 1 && places[row - 1][col + 1].state == (places[row][col].state + 1) % n){
-		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
-		//return;
 		cnt++;
 	}
 
 	//check top left
 	if(row != 0 && col != 0 && places[row - 1][col - 1].state == (places[row][col].state + 1) % n){
-		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
-		//return;
 		cnt++;
 	}
 
 	//check bottom right
 	if(row != places.length - 1 && col != places.length - 1 && places[row + 1][col + 1].state == (places[row][col].state + 1) % n){
-		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
-		//return;
 		cnt++;
 	}
 
 
 	//check bottom left
 	if(row != places.length - 1 && col != 0 && places[row + 1][col - 1].state == (places[row][col].state + 1) % n){
-		//tmpArr[row][col].state = (places[row][col].state + 1) % n;
-		//return;
 		cnt++;
 	}
 	
@@ -144,19 +107,9 @@ function speedDown(){
 	console.log(fps);
 }
 
-function smallCanvas(){
+function resetCanvas(){
 	canSize = 0;
 	setSize(10);
-}
-
-
-function medCanvas(){
-	canSize = 1;
-}
-
-
-function largeCanvas(){
-	canSize = 2;
 }
 
 function setSize(x){
@@ -173,7 +126,6 @@ function setSize(x){
 }
 
 function copyArr(arr){
-	//console.log("arr: ", arr);
 	let tmparr = [];
 	let tmp = [];
 		for(var row = 0; row < width; row += size){
